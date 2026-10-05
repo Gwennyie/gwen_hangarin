@@ -164,3 +164,11 @@ ACCOUNT_SIGNUP_FIELDS = [
     "password1*",
     "password2*",
 ]
+
+import os
+import socket
+
+if "pythonanywhere" in socket.gethostname():
+    SITE_ID = 3  # production site (gwennyie.pythonanywhere.com)
+else:
+    SITE_ID = 2  # local site (127.0.0.1:8000)
