@@ -165,6 +165,9 @@ ACCOUNT_SIGNUP_FIELDS = [
     "password2*",
 ] 
 
+SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+
 if 'PYTHONANYWHERE_DOMAIN' in os.environ:
     SITE_ID = 3  # production site (gwennyie.pythonanywhere.com)
 else:
