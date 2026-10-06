@@ -2,6 +2,8 @@
 <div class="content">
   <div class="container-fluid">
     <h4 class="page-title">Home</h4>
+
+    <!-- Stat cards -->
     <div class="row">
       <div class="col-md-4 col-xl-2">
         <div class="card card-stats card-warning">
@@ -25,12 +27,12 @@
           <div class="card-body">
             <div class="row">
               <div class="col-5">
-                <div class="icon-big text-center"><i class="la la-th-list"></i></div>
+                <div class="icon-big text-center"><i class="la la-check-circle"></i></div>
               </div>
               <div class="col-7 d-flex align-items-center">
                 <div class="numbers">
-                  <p class="card-category">SubTasks</p>
-                  <h4 class="card-title">{{ total_subtasks }}</h4>
+                  <p class="card-category">Completed</p>
+                  <h4 class="card-title">{{ completed_tasks }}</h4>
                 </div>
               </div>
             </div>
@@ -76,12 +78,12 @@
           <div class="card-body">
             <div class="row">
               <div class="col-5">
-                <div class="icon-big text-center"><i class="la la-check-circle                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       "></i></div>
+                <div class="icon-big text-center"><i class="la la-th-list"></i></div>
               </div>
               <div class="col-7 d-flex align-items-center">
                 <div class="numbers">
-                  <p class="card-category">Completed</p>
-                  <h4 class="card-title">{{ completed_tasks }}</h4>
+                  <p class="card-category">SubTasks</p>
+                  <h4 class="card-title">{{ total_subtasks }}</h4>
                 </div>
               </div>
             </div>
@@ -90,17 +92,246 @@
       </div>
     </div>
 
+    <!-- Charts -->
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-4">
         <div class="card">
           <div class="card-header">
-            <div class="card-title">Hangarin: Task & To-Do Manager</div>
-            <div class="card-category">Organize your tasks, notes, and subtasks</div>
+            <div class="card-title">Task Completion</div>
+            <div class="card-category">Percentage of tasks completed</div>
           </div>
-          <div class="card-body">Hello, World</div>
+          <div class="card-body text-center">
+            <div id="completion-circle" data-percent="{{ completion_percentage }}"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Status Breakdown</div>
+            <div class="card-category">Pending, In Progress, and Completed tasks</div>
+          </div>
+          <div class="card-body">
+            <div class="ct-chart" id="statusChart"
+                 data-pending="{{ pending_tasks }}"
+                 data-inprogress="{{ in_progress_tasks }}"
+                 data-completed="{{ completed_tasks }}"></div>
+            <div class="chart-legend mt-3">
+              <span class="badge badge-warning">&nbsp;</span> Pending
+              <span class="badge badge-info ml-3">&nbsp;</span> In Progress
+              <span class="badge badge-success ml-3">&nbsp;</span> Completed
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- Calendar -->
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <div class="card-title">Task Calendar</div>
+                <div class="card-category">Deadlines by date</div>
+              </div>
+              <div>
+                <button type="button" id="cal-prev" class="btn btn-sm btn-outline-secondary">&lt;</button>
+                <span id="cal-month-label" class="mx-2 font-weight-bold"></span>
+                <button type="button" id="cal-next" class="btn btn-sm btn-outline-secondary">&gt;</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="task-calendar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title" id="cal-day-title">Select a date</div>
+          </div>
+          <div class="card-body">
+            <ul id="cal-day-tasks" class="list-unstyled mb-0">
+              <li class="text-muted">Click a day with tasks to see details.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
+
+{{ tasks_calendar_data|json_script:"tasks-calendar-data" }}
+
+<style>
+  #task-calendar table { width: 100%; border-collapse: collapse; }
+  #task-calendar th { text-align: center; padding: 6px; font-size: 0.85rem; color: #888; }
+  #task-calendar td {
+    width: 14.28%;
+    height: 60px;
+    vertical-align: top;
+    border: 1px solid #eee;
+    padding: 4px;
+    cursor: default;
+  }
+  #task-calendar td.has-tasks { cursor: pointer; background-color: #f8f9fc; }
+  #task-calendar td.has-tasks:hover { background-color: #eef1fb; }
+  #task-calendar td.today { border: 2px solid #4CAF50; }
+  #task-calendar .day-num { font-size: 0.85rem; font-weight: 600; }
+  #task-calendar .task-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-top: 4px;
+  }
+  #task-calendar .dot-pending { background-color: #fbc658; }
+  #task-calendar .dot-inprogress { background-color: #51bcda; }
+  #task-calendar .dot-completed { background-color: #6bd098; }
+  #task-calendar .task-count { font-size: 0.7rem; color: #666; margin-left: 2px; }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var circleEl = document.getElementById('completion-circle');
+    var percent = parseInt(circleEl.getAttribute('data-percent'), 10);
+
+    Circles.create({
+      id: 'completion-circle',
+      radius: 60,
+      value: percent,
+      maxValue: 100,
+      width: 10,
+      number: percent,
+      text: function (value) { return value + '%'; },
+      colors: ['#f0f0f0', '#4CAF50'],
+      duration: 400,
+    });
+
+    var chartEl = document.getElementById('statusChart');
+    var pending = parseInt(chartEl.getAttribute('data-pending'), 10);
+    var inProgress = parseInt(chartEl.getAttribute('data-inprogress'), 10);
+    var completed = parseInt(chartEl.getAttribute('data-completed'), 10);
+
+    new Chartist.Pie('#statusChart', {
+      labels: ['Pending', 'In Progress', 'Completed'],
+      series: [pending, inProgress, completed]
+    }, {
+      donut: true,
+      donutWidth: 40,
+      startAngle: 0,
+      showLabel: true
+    });
+
+    var tasksRaw = JSON.parse(document.getElementById('tasks-calendar-data').textContent);
+
+    var tasksByDate = {};
+    tasksRaw.forEach(function (t) {
+      if (!tasksByDate[t.date]) tasksByDate[t.date] = [];
+      tasksByDate[t.date].push(t);
+    });
+
+    var current = new Date();
+    current.setDate(1);
+
+    var monthLabel = document.getElementById('cal-month-label');
+    var calendarEl = document.getElementById('task-calendar');
+    var dayTitle = document.getElementById('cal-day-title');
+    var dayTasks = document.getElementById('cal-day-tasks');
+
+    var monthNames = ["January","February","March","April","May","June",
+                       "July","August","September","October","November","December"];
+
+    function dotClass(status) {
+      if (status === "Pending") return "dot-pending";
+      if (status === "In Progress") return "dot-inprogress";
+      if (status === "Completed") return "dot-completed";
+      return "";
+    }
+
+    function pad(n) { return n < 10 ? "0" + n : n; }
+
+    function renderCalendar() {
+      var year = current.getFullYear();
+      var month = current.getMonth();
+      monthLabel.textContent = monthNames[month] + " " + year;
+
+      var firstDay = new Date(year, month, 1).getDay();
+      var daysInMonth = new Date(year, month + 1, 0).getDate();
+      var todayStr = new Date().toISOString().slice(0, 10);
+
+      var html = '<table><thead><tr>';
+      ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].forEach(function (d) {
+        html += '<th>' + d + '</th>';
+      });
+      html += '</tr></thead><tbody><tr>';
+
+      for (var i = 0; i < firstDay; i++) {
+        html += '<td></td>';
+      }
+
+      for (var day = 1; day <= daysInMonth; day++) {
+        var dateStr = year + "-" + pad(month + 1) + "-" + pad(day);
+        var dayTasksList = tasksByDate[dateStr] || [];
+        var classes = [];
+        if (dayTasksList.length > 0) classes.push('has-tasks');
+        if (dateStr === todayStr) classes.push('today');
+
+        html += '<td class="' + classes.join(' ') + '" data-date="' + dateStr + '">';
+        html += '<div class="day-num">' + day + '</div>';
+        if (dayTasksList.length > 0) {
+          var dots = dayTasksList.slice(0, 3).map(function (t) {
+            return '<span class="task-dot ' + dotClass(t.status) + '"></span>';
+          }).join('');
+          html += '<div>' + dots;
+          if (dayTasksList.length > 3) {
+            html += '<span class="task-count">+' + (dayTasksList.length - 3) + '</span>';
+          }
+          html += '</div>';
+        }
+        html += '</td>';
+
+        if ((firstDay + day) % 7 === 0) html += '</tr><tr>';
+      }
+
+      html += '</tr></tbody></table>';
+      calendarEl.innerHTML = html;
+
+      calendarEl.querySelectorAll('td.has-tasks').forEach(function (cell) {
+        cell.addEventListener('click', function () {
+          var dateStr = cell.getAttribute('data-date');
+          showDayTasks(dateStr);
+        });
+      });
+    }
+
+    function showDayTasks(dateStr) {
+      var list = tasksByDate[dateStr] || [];
+      dayTitle.textContent = dateStr;
+      if (list.length === 0) {
+        dayTasks.innerHTML = '<li class="text-muted">No tasks on this date.</li>';
+        return;
+      }
+      dayTasks.innerHTML = list.map(function (t) {
+        return '<li class="mb-2"><span class="task-dot ' + dotClass(t.status) +
+               '"></span> <a href="/tasks/' + t.id + '">' + t.title + '</a>' +
+               '<br><small class="text-muted">' + t.status + '</small></li>';
+      }).join('');
+    }
+
+    document.getElementById('cal-prev').addEventListener('click', function () {
+      current.setMonth(current.getMonth() - 1);
+      renderCalendar();
+    });
+    document.getElementById('cal-next').addEventListener('click', function () {
+      current.setMonth(current.getMonth() + 1);
+      renderCalendar();
+    });
+
+    renderCalendar();
+  });
+</script>
 {% endblock %}

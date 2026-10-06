@@ -8,7 +8,6 @@ from django.urls import reverse_lazy
 from .models import Task, Note, SubTask, Category, Priority
 from .forms import TaskForm, NoteForm, SubTaskForm, CategoryForm, PriorityForm
 
-
 class HomePageView(LoginRequiredMixin, ListView):
     model = Task
     context_object_name = 'home'
@@ -16,11 +15,30 @@ class HomePageView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["total_tasks"] = Task.objects.count()
-        context["completed_tasks"] = Task.objects.filter(status="Completed").count()
-        context["pending_tasks"] = Task.objects.filter(status="Pending").count()
+        total = Task.objects.count()
+        completed = Task.objects.filter(status="Completed").count()
+        pending = Task.objects.filter(status="Pending").count()
+        in_progress = Task.objects.filter(status="In Progress").count()
+
+        context["total_tasks"] = total
+        context["completed_tasks"] = completed
+        context["pending_tasks"] = pending
+        context["in_progress_tasks"] = in_progress
         context["total_notes"] = Note.objects.count()
         context["total_subtasks"] = SubTask.objects.count()
+        context["completion_percentage"] = round((completed / total) * 100) if total else 0
+
+        tasks_with_deadline = Task.objects.exclude(deadline__isnull=True)
+        context["tasks_calendar_data"] = [
+    {
+        "id": t.id,
+        "title": t.title,
+        "status": t.status,
+        "date": t.deadline.strftime("%Y-%m-%d"),
+    }
+    for t in tasks_with_deadline
+]
+
         return context
 
 
