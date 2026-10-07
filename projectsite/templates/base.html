@@ -81,6 +81,124 @@
   #theme-toggle {
     cursor: pointer;
   }
+
+    body.dark-mode label,
+  body.dark-mode .form-label,
+  body.dark-mode .field.item label {
+    color: var(--text-main);
+  }
+
+  body.dark-mode input::placeholder,
+  body.dark-mode textarea::placeholder {
+    color: var(--text-muted);
+    opacity: 1;
+  }
+
+  body.dark-mode select.form-control {
+    background-color: var(--bg-card);
+    color: var(--text-main);
+    border-color: var(--border-color);
+  }
+
+  body.dark-mode option {
+    background-color: var(--bg-card);
+    color: var(--text-main);
+  }
+
+  /* Calendar dark mode */
+  body.dark-mode #task-calendar table {
+    color: var(--text-main);
+  }
+
+  body.dark-mode #task-calendar th {
+    color: var(--text-muted);
+  }
+
+  body.dark-mode #task-calendar td {
+    border-color: var(--border-color);
+    background-color: var(--bg-card);
+  }
+
+  body.dark-mode #task-calendar td.has-tasks {
+    background-color: #2e3242;
+  }
+
+  body.dark-mode #task-calendar td.has-tasks:hover {
+    background-color: #363c4f;
+  }
+
+  body.dark-mode #task-calendar td.today {
+    border-color: #4CAF50;
+  }
+
+  body.dark-mode #task-calendar .day-num {
+    color: var(--text-main);
+  }
+
+  body.dark-mode #cal-month-label {
+    color: var(--text-main);
+  }
+
+    /* Logo text */
+  body.dark-mode .logo {
+    color: var(--text-main) !important;
+  }
+
+  /* Table cell text - Bootstrap sets its own color on td/th, need to override directly */
+  body.dark-mode .table td,
+  body.dark-mode .table th {
+    color: var(--text-main) !important;
+    border-color: var(--border-color);
+  }
+
+  /* Table striping - make the alternating rows actually visible against dark bg */
+  body.dark-mode .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.04);
+  }
+
+  body.dark-mode .table-striped tbody tr:nth-of-type(even) {
+    background-color: transparent;
+  }
+
+  /* Pagination buttons */
+  body.dark-mode .pagination .page-link {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+    color: var(--text-main) !important;
+  }
+
+  body.dark-mode .pagination .page-item.active .page-link {
+    background-color: #2196F3;
+    border-color: #2196F3;
+    color: #ffffff !important;
+  }
+
+  body.dark-mode .pagination .page-item.disabled .page-link {
+    color: var(--text-muted) !important;
+    background-color: var(--bg-card);
+  }
+
+  /* "Showing X out of Y entries" text */
+  body.dark-mode .fw-normal {
+    color: var(--text-muted);
+  }
+
+  /* Search input inside list pages */
+  body.dark-mode .nav-search .form-control {
+    background-color: var(--bg-card);
+    color: var(--text-main);
+    border-color: var(--border-color);
+  }
+
+  body.dark-mode .nav-search .input-group-text {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+  }
+
+  /* Card header borders separating title from body */
+  body.dark-mode .card-header {
+    border-color: var(--border-color);
+  }
 </style>
 
 <script>
