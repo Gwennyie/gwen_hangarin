@@ -9,8 +9,95 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
 	<link rel="stylesheet" href="{% static 'css/ready.css' %}">
 	<link rel="stylesheet" href="{% static 'css/demo.css' %}">
+
+	<style>
+  :root {
+    --bg-main: #f1f1f1;
+    --bg-card: #ffffff;
+    --bg-sidebar: #ffffff;
+    --text-main: #333333;
+    --text-muted: #888888;
+    --border-color: #e9ecef;
+  }
+
+  body.dark-mode {
+    --bg-main: #1a1d29;
+    --bg-card: #252836;
+    --bg-sidebar: #20222e;
+    --text-main: #e4e6eb;
+    --text-muted: #9a9ca5;
+    --border-color: #363947;
+  }
+
+  body.dark-mode .main-panel,
+  body.dark-mode .content {
+    background-color: var(--bg-main);
+  }
+
+  body.dark-mode .card {
+    background-color: var(--bg-card);
+    color: var(--text-main);
+  }
+
+  body.dark-mode .card-category,
+  body.dark-mode .text-muted {
+    color: var(--text-muted) !important;
+  }
+
+  body.dark-mode .sidebar,
+  body.dark-mode .main-header {
+    background-color: var(--bg-sidebar);
+  }
+
+  body.dark-mode .sidebar .nav li a p,
+  body.dark-mode .page-title,
+  body.dark-mode .card-title {
+    color: var(--text-main);
+  }
+
+  body.dark-mode .table {
+    color: var(--text-main);
+  }
+
+  body.dark-mode .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.03);
+  }
+
+  body.dark-mode .form-control {
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
+    color: var(--text-main);
+  }
+
+  body.dark-mode .footer {
+    background-color: var(--bg-sidebar);
+    color: var(--text-muted);
+  }
+
+  body.dark-mode a {
+    color: #66b2ff;
+  }
+
+  #theme-toggle {
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  (function () {
+    var saved = localStorage.getItem('hangarin-theme');
+    if (saved === 'dark') {
+      document.documentElement.classList.add('dark-mode-pending');
+    }
+  })();
+</script>
 </head>
 <body>
+  <script>
+    if (document.documentElement.classList.contains('dark-mode-pending')) {
+      document.body.classList.add('dark-mode');
+    }
+  </script>
 	<div class="wrapper">
 		<div class="main-header">
 			<div class="logo-header">
@@ -41,6 +128,11 @@
 								<span>{{ request.user.username }}</span>
 							</a>
 							<ul class="dropdown-menu dropdown-user">
+								<li class="nav-item">
+									<a class="nav-link" href="#" id="theme-toggle" title="Toggle dark mode">
+										<i class="la la-moon-o" id="theme-toggle-icon"></i>
+									</a>
+								</li>
 								<li>
 									<div class="user-box">
 										<div class="u-img"><img src="{% static 'img/profile.jpg' %}" alt="user"></div>
@@ -155,5 +247,31 @@
 	<script src="{% static 'js/plugin/chart-circle/circles.min.js' %}"></script>
 	<script src="{% static 'js/plugin/jquery-scrollbar/jquery.scrollbar.min.js' %}"></script>
 	<script src="{% static 'js/ready.min.js' %}"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			var toggleBtn = document.getElementById('theme-toggle');
+			var toggleIcon = document.getElementById('theme-toggle-icon');
+			var body = document.body;
+
+			function updateIcon() {
+			if (body.classList.contains('dark-mode')) {
+				toggleIcon.classList.remove('la-moon-o');
+				toggleIcon.classList.add('la-sun-o');
+			} else {
+				toggleIcon.classList.remove('la-sun-o');
+				toggleIcon.classList.add('la-moon-o');
+			}
+			}
+
+			updateIcon();
+
+			toggleBtn.addEventListener('click', function (e) {
+			e.preventDefault();
+			body.classList.toggle('dark-mode');
+			localStorage.setItem('hangarin-theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+			updateIcon();
+			});
+		});
+	</script>
 </body>
 </html>
