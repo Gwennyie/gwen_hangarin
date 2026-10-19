@@ -1,12 +1,13 @@
-from django.shortcuts import render
-from django.db.models import Q
+from django.shortcuts import render, redirect
+from django.db.models import Q, Case, When, Value, IntegerField, F
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
-from .models import Task, Note, SubTask, Category, Priority
-from .forms import TaskForm, NoteForm, SubTaskForm, CategoryForm, PriorityForm
+from .models import Task, Note, SubTask, Category, Priority, Profile
+from .forms import TaskForm, NoteForm, SubTaskForm, CategoryForm, PriorityForm, ProfileForm
 
 class HomePageView(LoginRequiredMixin, ListView):
     model = Task
@@ -48,17 +49,50 @@ class TaskList(LoginRequiredMixin, ListView):
     context_object_name = 'tasks'
     template_name = 'task_list.html'
     paginate_by = 5
-    ordering = ["status", "deadline"]
 
     def get_queryset(self):
-        qs = super().get_queryset()
+        qs = super().get_queryset().select_related("priority", "category")
+
+        # search
         query = self.request.GET.get('q')
         if query:
             qs = qs.filter(
                 Q(title__icontains=query) |
                 Q(description__icontains=query)
             )
-        return qs
+
+        # custom ranks so the order follows meaning, not the alphabet
+        qs = qs.annotate(
+            status_rank=Case(
+                When(status="Pending", then=Value(0)),
+                When(status="In Progress", then=Value(1)),
+                When(status="Completed", then=Value(2)),
+                default=Value(3),
+                output_field=IntegerField(),
+            ),
+            priority_rank=Case(
+                When(priority__name="Critical", then=Value(0)),
+                When(priority__name="High", then=Value(1)),
+                When(priority__name="Medium", then=Value(2)),
+                When(priority__name="Low", then=Value(3)),
+                When(priority__name="Optional", then=Value(4)),
+                default=Value(5),
+                output_field=IntegerField(),
+            ),
+        )
+
+        soonest = F("deadline").asc(nulls_last=True)
+        sort_by = self.request.GET.get("sort_by", "deadline")
+
+        if sort_by == "title":
+            return qs.order_by("title", "id")
+        if sort_by == "status":
+            return qs.order_by("status_rank", soonest, "id")
+        if sort_by == "priority":
+            return qs.order_by("priority_rank", soonest, "id")
+        if sort_by == "category":
+            return qs.order_by("category__name", soonest, "id")
+        return qs.order_by(soonest, "id")   # deadline (default)
 
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
@@ -230,3 +264,33 @@ class PriorityDeleteView(LoginRequiredMixin, DeleteView):
     model = Priority
     template_name = 'priority_del.html'
     success_url = reverse_lazy('priority-list')
+
+# ---------- Profile ----------
+@login_required
+def profile_view(request):
+    profile, created = Profile.objects.get_or_create(
+        user=request.user
+    )
+
+    if not profile.display_name:
+        profile.display_name = (
+            request.user.get_full_name() or request.user.username
+        )
+
+    if request.method == "POST":
+        form = ProfileForm(
+            request.POST,
+            request.FILES,
+            instance=profile
+        )
+
+        if form.is_valid():
+            form.save()
+            return redirect("profile")
+    else:
+        form = ProfileForm(instance=profile)
+
+    return render(request, "profile.html", {
+        "form": form,
+        "profile": profile,
+    })

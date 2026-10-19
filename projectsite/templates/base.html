@@ -1,4 +1,5 @@
 {% load static %}
+{% load pwa %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -199,6 +200,34 @@
   body.dark-mode .card-header {
     border-color: var(--border-color);
   }
+
+  body.dark-mode .card-body label,
+  body.dark-mode .form-group label,
+  body.dark-mode .field label {
+    color: var(--text-main) !important;
+  }
+
+  body.dark-mode input[type="datetime-local"] {
+    background-color: var(--bg-card);
+    color: var(--text-main);
+    border-color: var(--border-color);
+  }
+
+  body.dark-mode input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+
+  body.dark-mode input[type="date"],
+  body.dark-mode input[type="time"] {
+    background-color: var(--bg-card);
+    color: var(--text-main);
+    border-color: var(--border-color);
+  }
+
+  body.dark-mode input[type="date"]::-webkit-calendar-picker-indicator,
+  body.dark-mode input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
 </style>
 
 <script>
@@ -209,6 +238,7 @@
     }
   })();
 </script>
+{% progressive_web_app_meta %}
 </head>
 <body>
   <script>
@@ -229,21 +259,18 @@
 			</div>
 			<nav class="navbar navbar-header navbar-expand-lg">
 				<div class="container-fluid">
-					<form class="navbar-left navbar-form nav-search mr-md-3" action="">
-						<div class="input-group">
-							<input type="text" placeholder="Search ..." class="form-control">
-							<div class="input-group-append">
-								<span class="input-group-text">
-									<i class="la la-search search-icon"></i>
-								</span>
-							</div>
-						</div>
-					</form>
 					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
 						<li class="nav-item dropdown">
 							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
-								<img src="{% static 'img/profile.jpg' %}" alt="user-img" width="36" class="img-circle">
-								<span>{{ request.user.username }}</span>
+								{% if request.user.profile.profile_picture %}
+                  <img src="{{ request.user.profile.profile_picture.url }}"
+                      alt="user-img" width="36" height="36"
+                      class="img-circle" style="object-fit: cover;">
+              {% else %}
+                  <img src="{% static 'img/profile.jpg' %}"
+                      alt="user-img" width="36" height="36" class="img-circle">
+              {% endif %}
+								<span>{{ request.user.profile.display_name|default:request.user.username }}</span>
 							</a>
 							<ul class="dropdown-menu dropdown-user">
 								<li class="nav-item">
@@ -253,17 +280,23 @@
 								</li>
 								<li>
 									<div class="user-box">
-										<div class="u-img"><img src="{% static 'img/profile.jpg' %}" alt="user"></div>
+										<div class="u-img">
+                      {% if request.user.profile.profile_picture %}
+                          <img src="{{ request.user.profile.profile_picture.url }}"
+                              alt="user" style="object-fit: cover;">
+                      {% else %}
+                          <img src="{% static 'img/profile.jpg' %}" alt="user">
+                      {% endif %}
+                  </div>
 										<div class="u-text">
-											<h4>{{ request.user.username }}</h4>
+											<h4>{{ request.user.profile.display_name|default:request.user.username }}</h4>
 											<p class="text-muted">{{ request.user.email }}</p>
-											<a href="#" class="btn btn-rounded btn-danger btn-sm">View Profile</a>
+											<a href="{% url 'profile' %}" class="btn btn-rounded btn-danger btn-sm">View Profile</a>
 										</div>
 									</div>
 								</li>
 								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="#"><i class="ti-user"></i> My Profile</a>
-								<a class="dropdown-item" href="#"><i class="ti-email"></i> Inbox</a>
+                <a class="dropdown-item" href="{% url 'profile' %}"><i class="ti-user"></i> My Profile</a>
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href="#"><i class="ti-settings"></i> Account Setting</a>
 								<div class="dropdown-divider"></div>
@@ -278,24 +311,29 @@
 			<div class="scrollbar-inner sidebar-wrapper">
 				<div class="user">
 					<div class="photo">
-						<img src="{% static 'img/profile.jpg' %}">
-					</div>
+              {% if request.user.profile.profile_picture %}
+                  <img src="{{ request.user.profile.profile_picture.url }}"
+                      alt="Profile picture" style="object-fit: cover;">
+              {% else %}
+                  <img src="{% static 'img/profile.jpg' %}" alt="Profile picture">
+              {% endif %}
+          </div>
 					<div class="info">
 						<a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 							<span>
-								Kuro
-								<span class="user-level">Administrator</span>
+								{{ request.user.profile.display_name|default:request.user.username }}
+								<span class="user-level">User</span>
 								<span class="caret"></span>
 							</span>
 						</a>
 						<div class="clearfix"></div>
 						<div class="collapse in" id="collapseExample" aria-expanded="true" style="">
 							<ul class="nav">
-								<li>
-									<a href="#profile">
-										<span class="link-collapse">My Profile</span>
-									</a>
-								</li>
+                <li>
+                    <a href="{% url 'profile' %}">
+                        <span class="link-collapse">My Profile</span>
+                    </a>
+                </li>
 							</ul>
 						</div>
 					</div>

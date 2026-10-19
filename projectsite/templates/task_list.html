@@ -13,6 +13,7 @@
           <div class="col-md-12 row">
             <div class="col-md-6">
               <form class="navbar-left navbar-form nav-search mr-md-3" action="{% url 'task-list' %}">
+                <input type="hidden" name="sort_by" value="{{ request.GET.sort_by }}">
                 <div class="input-group">
                   <input type="text" placeholder="Search ..." class="form-control" name="q" value="{{ request.GET.q }}">
                   <div class="input-group-append">
@@ -28,6 +29,26 @@
                 <a href="{% url 'task-add' %}" class="btn btn-success btn-rounded">Add Task</a>
               </div>
             </div>
+          </div>
+          <div class="col-md-12">
+            <form method="get" action="{% url 'task-list' %}" class="row g-2 align-items-center">
+              <input type="hidden" name="q" value="{{ request.GET.q }}">
+              <div class="col-auto">
+                <label for="sortSelect" class="col-form-label">Sort by</label>
+              </div>
+              <div class="col-auto">
+                <select class="form-control form-control-sm" id="sortSelect" name="sort_by">
+                  <option value="deadline" {% if request.GET.sort_by == "deadline" or not request.GET.sort_by %}selected{% endif %}>Deadline</option>
+                  <option value="title" {% if request.GET.sort_by == "title" %}selected{% endif %}>Title</option>
+                  <option value="status" {% if request.GET.sort_by == "status" %}selected{% endif %}>Status</option>
+                  <option value="priority" {% if request.GET.sort_by == "priority" %}selected{% endif %}>Priority</option>
+                  <option value="category" {% if request.GET.sort_by == "category" %}selected{% endif %}>Category</option>
+                </select>
+              </div>
+              <div class="col-auto">
+                <button type="submit" class="btn btn-primary btn-sm btn-rounded">Sort</button>
+              </div>
+            </form>
           </div>
           <div class="card-body">
             <table class="table table-striped mt-3">

@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from .models import Task, Note, SubTask, Category, Priority
+from .models import Task, Note, SubTask, Category, Priority, Profile
 
 
 class TaskForm(ModelForm):
@@ -37,3 +37,18 @@ class PriorityForm(ModelForm):
     class Meta:
         model = Priority
         fields = "__all__"
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ["display_name", "profile_picture"]
+        widgets = {
+            "display_name": forms.TextInput(attrs={
+                "class": "form-control",
+                "placeholder": "Enter your display name"
+            }),
+            "profile_picture": forms.ClearableFileInput(attrs={
+                "class": "form-control",
+                "accept": "image/*"
+            }),
+        }

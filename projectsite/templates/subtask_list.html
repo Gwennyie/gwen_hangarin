@@ -63,8 +63,10 @@
                   <td>{{ object.status }}</td>
                   <td>{{ object.parent_task }}</td>
                   <td>
-                    <a href="subtasks/{{ object.id }}">Edit</a>
-                    <a href="subtasks/{{ object.id }}/delete" class="text-danger">Delete</a>
+                    <a href="{% url 'subtask-update' object.id %}">Edit</a>
+                    <a href="{% url 'subtask-delete' object.id %}" class="text-danger">Delete</a>
+
+                    
                   </td>
                 </tr>
                 {% empty %}

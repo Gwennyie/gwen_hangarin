@@ -46,8 +46,8 @@
                   <td>{{ object.content }}</td>
                   <td>{{ object.created_at }}</td>
                   <td>
-                    <a href="notes/{{ object.id }}">Edit</a>
-                    <a href="notes/{{ object.id }}/delete" class="text-danger">Delete</a>
+                    <a href="{% url 'note-update' object.id %}">Edit</a>
+                    <a href="{% url 'note-delete' object.id %}" class="text-danger">Delete</a>
                   </td>
                 </tr>
                 {% empty %}

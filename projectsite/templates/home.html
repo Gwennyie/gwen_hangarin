@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 <div class="content">
   <div class="container-fluid">
-    <h4 class="page-title">Home</h4>
+    <h4 class="page-title">Welcome, {{ request.user.username }}!</h4>
 
     <!-- Stat cards -->
     <div class="row">
@@ -100,7 +100,7 @@
             <div class="card-title">Task Completion</div>
             <div class="card-category">Percentage of tasks completed</div>
           </div>
-          <div class="card-body text-center">
+          <div class="card-body text-center d-flex">
             <div id="completion-circle" data-percent="{{ completion_percentage }}"></div>
           </div>
         </div>
@@ -192,6 +192,20 @@
   #task-calendar .dot-inprogress { background-color: #51bcda; }
   #task-calendar .dot-completed { background-color: #6bd098; }
   #task-calendar .task-count { font-size: 0.7rem; color: #666; margin-left: 2px; }
+
+  .row > .col-md-4,
+  .row > .col-md-8 {
+  display: flex;
+}
+
+  .row > .col-md-4 .card,
+  .row > .col-md-8 .card {
+  width: 100%;
+
+  #completion-circle {
+  margin: auto;
+}
+}
 </style>
 
 <script>
@@ -261,7 +275,11 @@
 
       var firstDay = new Date(year, month, 1).getDay();
       var daysInMonth = new Date(year, month + 1, 0).getDate();
-      var todayStr = new Date().toISOString().slice(0, 10);
+      var today = new Date();
+
+      var todayStr = today.getFullYear() + '-' +
+          String(today.getMonth() + 1).padStart(2, '0') + '-' +
+          String(today.getDate()).padStart(2, '0');
 
       var html = '<table><thead><tr>';
       ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].forEach(function (d) {

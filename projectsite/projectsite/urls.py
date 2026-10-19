@@ -16,11 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from tasks import views
+from tasks.views import profile_view
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("accounts/", include("allauth.urls")), # allauth routes
+    path("accounts/", include("allauth.urls")),
+    path('', include('pwa.urls')),
     path('', views.HomePageView.as_view(), name='home'),
 
     path('tasks/', views.TaskList.as_view(), name='task-list'),
@@ -47,4 +52,9 @@ urlpatterns = [
     path('priorities/add', views.PriorityCreateView.as_view(), name='priority-add'),
     path('priorities/<pk>', views.PriorityUpdateView.as_view(), name='priority-update'),
     path('priorities/<pk>/delete', views.PriorityDeleteView.as_view(), name='priority-delete'),
+
+    path('profile/', profile_view, name='profile'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
