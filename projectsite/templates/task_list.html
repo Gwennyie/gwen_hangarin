@@ -71,8 +71,8 @@
                   <td>{{ object.priority }}</td>
                   <td>{{ object.category }}</td>
                   <td>
-                    <a href="tasks/{{ object.id }}">Edit</a>
-                    <a href="tasks/{{ object.id }}/delete" class="text-danger">Delete</a>
+                    <a href="{% url 'task-update' object.pk %}">Edit</a>
+                    <a href="{% url 'task-delete' object.pk %}" class="text-danger">Delete</a>
                   </td>
                 </tr>
                 {% empty %}
