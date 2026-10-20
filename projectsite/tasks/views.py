@@ -82,7 +82,7 @@ class TaskList(LoginRequiredMixin, ListView):
         )
 
         soonest = F("deadline").asc(nulls_last=True)
-        sort_by = self.request.GET.get("sort_by", "deadline")
+        sort_by = self.request.GET.get("sort_by", "added")   # default: date added
 
         if sort_by == "title":
             return qs.order_by("title", "id")
@@ -92,7 +92,9 @@ class TaskList(LoginRequiredMixin, ListView):
             return qs.order_by("priority_rank", soonest, "id")
         if sort_by == "category":
             return qs.order_by("category__name", soonest, "id")
-        return qs.order_by(soonest, "id")   # deadline (default)
+        if sort_by == "deadline":
+            return qs.order_by(soonest, "id")
+        return qs.order_by("created_at", "id")   # added (default): oldest first, newest last
 
 
 class TaskCreateView(LoginRequiredMixin, CreateView):

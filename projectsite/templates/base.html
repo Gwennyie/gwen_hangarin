@@ -228,6 +228,67 @@
   body.dark-mode input[type="time"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
   }
+
+    /* ===== Mobile / small screens ===== */
+  html, body { overflow-x: hidden; }
+
+  @media (max-width: 767.98px) {
+    .main-panel { min-width: 0; }
+    .content { padding: 15px 8px; }
+    .container-fluid { padding-left: 8px; padding-right: 8px; }
+    .content .card { max-width: 100%; }
+    .page-title { font-size: 1.4rem; }
+
+    /* search bar + add button fill the width */
+    .card .nav-search { width: 100%; margin-right: 0 !important; }
+    .card .nav-search .input-group { width: 100%; }
+    .pull-right { float: none !important; margin-top: 12px; }
+    .pull-right .btn { width: 100%; }
+
+    /* tables stay tables, and scroll sideways inside the card */
+    .card-body table.table {
+      display: block;
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .card-body table.table th,
+    .card-body table.table td {
+      min-width: 120px;
+      white-space: nowrap;
+    }
+    .card-body table.table th:first-child,
+    .card-body table.table td:first-child {
+      min-width: 180px;
+      white-space: normal;   /* long titles wrap instead of stretching the table */
+    }
+
+    /* pagination wraps instead of overflowing */
+    .pagination { flex-wrap: wrap; }
+
+    /* dashboard stat cards: compact, two per row */
+    .card-stats { margin-bottom: 10px; }
+    .card-stats .card-body { padding: 10px 8px !important; }
+    .card-stats .icon-big {
+      font-size: 1.6rem !important;
+      min-height: 0 !important;
+      line-height: 1 !important;
+    }
+    
+    .card-stats .icon-big i { font-size: 1.6rem !important; }
+    .card-stats .col-5 { flex: 0 0 34%; max-width: 34%; padding-right: 0; }
+    .card-stats .col-7 { flex: 0 0 66%; max-width: 66%; padding-left: 6px; }
+    .card-stats .numbers { text-align: left; }
+    .card-stats .numbers .card-category { font-size: 0.72rem; margin: 0; }
+    .card-stats .numbers .card-title { font-size: 1.1rem; margin: 0; }
+
+    /* calendar: compact cells */
+    .card-header .d-flex { flex-wrap: wrap; gap: 8px; }
+    #task-calendar th { font-size: 0.7rem !important; padding: 4px 0 !important; }
+    #task-calendar td { height: 44px !important; padding: 2px !important; }
+    #task-calendar .day-num { font-size: 0.75rem !important; }
+    #task-calendar .task-dot { width: 6px !important; height: 6px !important; }
+  }
 </style>
 
 <script>
