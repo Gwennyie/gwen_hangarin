@@ -213,32 +213,33 @@
     var circleEl = document.getElementById('completion-circle');
     var percent = parseInt(circleEl.getAttribute('data-percent'), 10);
 
-    Circles.create({
-      id: 'completion-circle',
-      radius: 60,
-      value: percent,
-      maxValue: 100,
-      width: 10,
-      number: percent,
-      text: function (value) { return value + '%'; },
-      colors: ['#f0f0f0', '#4CAF50'],
-      duration: 400,
-    });
+     if (typeof Circles !== 'undefined') {
+      var circleEl = document.getElementById('completion-circle');
+      var percent = parseInt(circleEl.getAttribute('data-percent'), 10);
+      Circles.create({
+        id: 'completion-circle',
+        radius: 60,
+        value: percent,
+        maxValue: 100,
+        width: 10,
+        number: percent,
+        text: function (value) { return value + '%'; },
+        colors: ['#f0f0f0', '#4CAF50'],
+        duration: 400,
+      });
+    }
 
-    var chartEl = document.getElementById('statusChart');
-    var pending = parseInt(chartEl.getAttribute('data-pending'), 10);
-    var inProgress = parseInt(chartEl.getAttribute('data-inprogress'), 10);
-    var completed = parseInt(chartEl.getAttribute('data-completed'), 10);
+    if (typeof Chartist !== 'undefined') {
+      var chartEl = document.getElementById('statusChart');
+      var pending = parseInt(chartEl.getAttribute('data-pending'), 10);
+      var inProgress = parseInt(chartEl.getAttribute('data-inprogress'), 10);
+      var completed = parseInt(chartEl.getAttribute('data-completed'), 10);
 
-    new Chartist.Pie('#statusChart', {
-      labels: ['Pending', 'In Progress', 'Completed'],
-      series: [pending, inProgress, completed]
-    }, {
-      donut: true,
-      donutWidth: 40,
-      startAngle: 0,
-      showLabel: true
-    });
+      new Chartist.Pie('#statusChart', {
+        labels: ['Pending', 'In Progress', 'Completed'],
+        series: [pending, inProgress, completed]
+      }, { donut: true, donutWidth: 40, startAngle: 0, showLabel: true });
+    }
 
     var tasksRaw = JSON.parse(document.getElementById('tasks-calendar-data').textContent);
 
